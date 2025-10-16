@@ -1,0 +1,12 @@
+vr_clt:
+  samplerate: 16000
+  channels: 1
+  frame_duration: 0.2
+  frame_samples: 3200
+  silence_threshold: 100
+  silence_max_duration: 1.0
+  max_record_time: 60.0
+sst_clt:
+  request_timeout: 10.0
+  try_interval: 3.0
+  max_try_time: 5

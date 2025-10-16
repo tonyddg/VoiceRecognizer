@@ -1,0 +1,5 @@
+sounddevice
+wave
+dotenv
+requests
+omegaconf

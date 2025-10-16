@@ -1,0 +1,6 @@
+__pycache__
+.env
+
+voice_sample
+tmp.wav
+*.log
