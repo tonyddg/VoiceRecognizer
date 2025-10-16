@@ -48,9 +48,5 @@ if __name__ == "__main__":
 
     # 测试代码
     dotenv.load_dotenv()
-    XF_APP_ID = str(os.environ.get("XF_APP_ID"))
-    XF_SECRET_KEY = str(os.environ.get("XF_SECRET_KEY"))
-    TEST_VOICE_PATH = str(os.environ.get("TEST_VOICE_PATH"))
-
     obj = VoiceRecognizer.from_cfg("voice_recognize.yaml")
     print(obj.record_recognize())
