@@ -10,9 +10,16 @@
 
 ## 使用说明
 
+安装 `requirements.txt` 中的包
+
 在[科大讯飞控制台](https://console.xfyun.cn/services/lfasr)获取 `APPID` 与 `SecretKey` 后通过以下方式之一载入
-- 将 `APPID` 与 `SecretKey` 分别载入环境变量 `XF_APP_ID` 与 `XF_SECRET_KEY`
-- 将 `APPID` 与 `SecretKey` 写入配置文件的键 `sst_clt.app_id` 与 `sst_clt.secret_key`
+- 将 `APPID` 与 `SecretKey` 分别载入环境变量 `XF_APP_ID` 与 `XF_SECRET_KEY`（可写入当前目录下的 `.env` 文件）
+- 将 `APPID` 与 `SecretKey` 写入配置文件如 `voice_recognize.yaml` 的键 `sst_clt.app_id` 与 `sst_clt.secret_key`
+
+测试模块
+- 运行 `python VoiceRecorder.py` 测试语音录制功能
+- 运行 `python VoiceRecognizer.py` 测试语音识别并转文字功能。
+- 运行 `python Speach2TextXF.py` 测试语音转文字功能（仅支持环境变量配置）
 
 ## 参考代码
 
@@ -21,4 +28,4 @@
 - 不使用科大讯飞 SDK，而是直接 request 调用相关 API，[文档](https://www.xfyun.cn/doc/asr/ifasr_new/API.html#%E6%8E%A5%E5%8F%A3%E8%A6%81%E6%B1%82)，[示例 Demo](https://xfyun-doc.xfyun.cn/static/16735945125044764/lfasr_new_python_demo.zip)
 
 获取麦克风音频
-- [机器人语音录制示例](https://github.com/dehaozhou/Dehao-Zhou/blob/main/%E5%88%A9%E7%94%A8%E5%A4%9A%E6%A8%A1%E6%80%81%E6%A8%A1%E5%9E%8BQwen2.5-VL%E7%90%86%E8%A7%A3%E4%BA%BA%E7%B1%BB%E6%84%8F%E5%9B%BE%EF%BC%8C%E8%BF%9B%E8%A1%8C%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%8A%93%E5%8F%96/vlm_process.py)
+- [机器人语音录制示例](https://github.com/dehaozhou/Dehao-Zhou/blob/d025711d35ff8ecf5997f6b64e787a0fcbd67062/%E5%88%A9%E7%94%A8%E5%A4%9A%E6%A8%A1%E6%80%81%E6%A8%A1%E5%9E%8BQwen2.5-VL%E7%90%86%E8%A7%A3%E4%BA%BA%E7%B1%BB%E6%84%8F%E5%9B%BE%EF%BC%8C%E8%BF%9B%E8%A1%8C%E4%BA%A4%E4%BA%92%E5%BC%8F%E6%8A%93%E5%8F%96/vlm_process.py#L199)
