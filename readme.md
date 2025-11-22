@@ -10,16 +10,54 @@
 
 ## 使用说明
 
-安装 `requirements.txt` 中的包
+基于 pip 安装（用于运行）
+
+```bash
+pip install git+https://github.com/tonyddg/VoiceRecognizer.git
+```
+
+基于 uv 安装（用于本地开发）
+
+```bash
+git clone https://github.com/tonyddg/VoiceRecognizer
+cd VoiceRecognizer
+uv sync
+```
 
 在[科大讯飞控制台](https://console.xfyun.cn/services/lfasr)获取 `APPID` 与 `SecretKey` 后通过以下方式之一载入
 - 将 `APPID` 与 `SecretKey` 分别载入环境变量 `XF_APP_ID` 与 `XF_SECRET_KEY`（可写入当前目录下的 `.env` 文件）
 - 将 `APPID` 与 `SecretKey` 写入配置文件如 `voice_recognize.yaml` 的键 `sst_clt.app_id` 与 `sst_clt.secret_key`
 
 测试模块
-- 运行 `python VoiceRecorder.py` 测试语音录制功能
-- 运行 `python VoiceRecognizer.py` 测试语音识别并转文字功能。
-- 运行 `python Speach2TextXF.py` 测试语音转文字功能（仅支持环境变量配置）
+- 运行 `python -m voice_recognizer.VoiceRecorder -h` 测试语音录制功能
+- 运行 `python -m voice_recognizer.VoiceRecognizer -h` 测试语音识别并转文字功能。
+- 运行 `python -m voice_recognizer.Speach2TextXF -h` 测试语音转文字功能
+
+程序使用
+- `from voice_recognizer import VoiceRecognizer`
+
+## 配置文件说明
+
+```yaml
+vr_clt:
+  samplerate: 16000
+  channels: 1
+  frame_duration: 0.2
+  frame_samples: 3200
+  # 安静音量阈值
+  silence_threshold: 1000
+  # 安静持续时间
+  silence_max_duration: 1.0
+  # 最长录音时间
+  max_record_time: 60.0
+sst_clt:
+  # API 请求延迟
+  request_timeout: 10.0
+  # 结果获取尝试间隔
+  try_interval: 3.0
+  # 最大尝试次数
+  max_try_time: 5
+```
 
 ## 参考代码
 

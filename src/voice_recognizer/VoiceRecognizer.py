@@ -3,12 +3,12 @@ from pathlib import Path
 from typing import Union
 
 import dotenv
-from VoiceRecorder import VoiceRecorder
-from Speach2TextXF import Speach2TextXF
+from voice_recognizer.VoiceRecorder import VoiceRecorder
+from voice_recognizer.Speach2TextXF import Speach2TextXF
 from dataclasses import dataclass, field
 
 from omegaconf import OmegaConf
-import logging
+from voice_recognizer._logging import setup_logging
 
 @dataclass
 class VoiceRecognizer:
@@ -38,15 +38,18 @@ class VoiceRecognizer:
 
 if __name__ == "__main__":
 
-    # logger 设置
-    logger = logging.getLogger(None)
-    ch = logging.StreamHandler()
-    formatter = logging.Formatter("%(asctime)s|%(levelname)s|%(name)s:%(lineno)d|%(funcName)s: %(message)s")
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
-    logger.setLevel(logging.DEBUG)
-
-    # 测试代码
+    import tyro
+    from dataclasses import dataclass
     dotenv.load_dotenv()
-    obj = VoiceRecognizer.from_cfg("voice_recognize.yaml")
+
+    @dataclass
+    class Cfg:
+        # 识别器配置文件路径
+        voice_recognize_cfg_path: str = Path(__file__).parent.joinpath("voice_recognize.yaml").as_posix()
+        
+    setup_logging()
+    cfg = tyro.cli(Cfg)
+    
+    # 测试代码
+    obj = VoiceRecognizer.from_cfg(cfg.voice_recognize_cfg_path)
     print(obj.record_recognize())

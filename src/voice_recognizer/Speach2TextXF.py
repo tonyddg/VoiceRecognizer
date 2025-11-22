@@ -11,9 +11,8 @@ import requests
 from dataclasses import dataclass, field
 import dotenv
 
-import logging
-logger = logging.getLogger(__name__)
-# logger.setLevel(logging.INFO)
+from voice_recognizer._logging import getLogger, setup_logging
+logger = getLogger(__name__)
 
 # 请求的接口名
 LFASR_HOST = "https://raasr.xfyun.cn/v2/api"
@@ -349,27 +348,26 @@ class Speach2TextXF:
 
 if __name__ == "__main__":
 
-    # logger 设置
-    ch = logging.StreamHandler()
-    fh = logging.FileHandler("Speach2TextXF.log", 'w', 'utf-8')
+    import tyro
+    from dataclasses import dataclass
+    dotenv.load_dotenv()
 
-    formatter = logging.Formatter("%(asctime)s|%(levelname)s|%(name)s:%(lineno)d|%(funcName)s: %(message)s")
-    ch.setFormatter(formatter)
-    fh.setFormatter(formatter)
+    @dataclass
+    class Cfg:
+        # 测试音频路径
+        TEST_VOICE_PATH: str = Path(__file__).parent.joinpath("sample.mp3").as_posix()
+        # 科大讯飞 app id
+        XF_APP_ID = str(os.environ.get("XF_APP_ID"))
+        # 科大讯飞 secret key
+        XF_SECRET_KEY = str(os.environ.get("XF_SECRET_KEY"))
 
-    logger.addHandler(ch)
-    logger.addHandler(fh)
-    logger.setLevel(logging.DEBUG)
+    setup_logging()
+    cfg = tyro.cli(Cfg)
 
     # 测试代码
-    dotenv.load_dotenv()
-    XF_APP_ID = str(os.environ.get("XF_APP_ID"))
-    XF_SECRET_KEY = str(os.environ.get("XF_SECRET_KEY"))
-    TEST_VOICE_PATH = Path(__file__).parent.joinpath("sample.mp3")
-
     res = Speach2TextXF.exec(
-        XF_APP_ID,
-        XF_SECRET_KEY,
-        TEST_VOICE_PATH
+        cfg.XF_APP_ID,
+        cfg.XF_SECRET_KEY,
+        cfg.TEST_VOICE_PATH
     )
     print(f"语音识别结果: {res}")

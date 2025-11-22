@@ -1,0 +1,31 @@
+version: 1
+formatters:
+  # 详细日志
+  detail:
+    format: '%(asctime)s|%(levelname)s|%(filename)s:%(lineno)d|%(funcName)s: %(message)s'
+  # 简略日志
+  brief:
+    format: '%(asctime)s|%(levelname)s|%(funcName)s: %(message)s'
+handlers:
+  # 用于将全部信息输出到控制台
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: brief
+  # 使用文件记录错误信息
+  file:
+    class: logging.FileHandler
+    level: INFO
+    formatter: detail
+    # 将日志保存到 log 文件夹等待使用记录日期格式化
+    filename: ~
+    # 使用 UTF-8
+    encoding: 'utf-8'
+    # 仅出错时记录文件日志, 避免不必要的文件创建
+    delay: true
+loggers:
+  # 使用模块名作为模块的模块根记录器
+  voice_recognizer:
+    # 可通过配置修改记录器, 实现不同场景的切换
+    level: DEBUG
+    handlers: [console, file]

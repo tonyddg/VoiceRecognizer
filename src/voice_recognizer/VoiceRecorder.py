@@ -1,4 +1,3 @@
-from collections.abc import Buffer
 import queue
 import time
 from typing import Union
@@ -8,9 +7,8 @@ import sounddevice as sd
 from pathlib import Path
 from dataclasses import dataclass
 
-import logging
-logger = logging.getLogger(__name__)
-# logger.setLevel(logging.INFO)
+from voice_recognizer._logging import getLogger, setup_logging
+logger = getLogger(__name__)
 
 def _audio_rms(
     audio_frame
@@ -123,13 +121,17 @@ class VoiceRecorder:
 
 if __name__ == "__main__":
 
-    # logger 设置
-    ch = logging.StreamHandler()
-    formatter = logging.Formatter("%(asctime)s|%(levelname)s|%(name)s:%(lineno)d|%(funcName)s: %(message)s")
-    ch.setFormatter(formatter)
-    logger.addHandler(ch)
-    logger.setLevel(logging.DEBUG)
+    import tyro
+    from dataclasses import dataclass
+
+    @dataclass
+    class Cfg:
+        # 录音音频输出路径
+        record_path: str = "sample.mp3"
+
+    setup_logging()
+    cfg = tyro.cli(Cfg)
 
     # 测试代码
     vr = VoiceRecorder()
-    vr.record_wav("test.wav")
+    vr.record_wav(cfg.record_path)
